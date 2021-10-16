@@ -17,7 +17,6 @@ case class EtlIDLC(spark:SparkSession, urlConexion:String) {
     //TODO usar en prod
     val credentialProviderPath = datosConexion.getProperty("credential.provider.path")
     val password = new Utilerias().getPasswordJceks(credentialProviderPath, "oracle.password")
-    //val password = "Pre15Feb#19_sqm"
     datosConexion.setProperty("password", password)
     val url = "jdbc:oracle:thin:" + datosConexion.getProperty("usuario") + "/" + password + "@//" + datosConexion.getProperty("host") + ":" + datosConexion.getProperty("port") + "/" + datosConexion.getProperty("base") 
     
