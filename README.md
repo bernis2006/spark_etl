@@ -1,3 +1,5 @@
 # rt-cloudera_core_batch
 
-Proyecto BAU_IDLC para notificaciones masivas desde una base de datos
+Proyectos ejecución Batch como proyectos 
+    BAU_IDLC para notificaciones masivas desde una base de datos
+    Blindaje_Batch que lanza los acumulados de blindaje total
