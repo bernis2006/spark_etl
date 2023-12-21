@@ -46,7 +46,7 @@ public class SparkContextSingleton {
     private static void initializeSparkContext() {
         LOGGER.info("***** initializing spark session");
         sparkSession = SparkSession.builder()
-        		//.master("local[*]")
+        //		.master("local[*]")
         		.getOrCreate();
     }
     

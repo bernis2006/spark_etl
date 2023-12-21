@@ -1,14 +1,12 @@
 package mx.com.santander.etl
 
-import mx.com.santander.connector.MQIBM
 import mx.com.santander.utilerias.Utilerias
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.functions._
+import org.apache.spark.sql.types.DataTypes._
 
-import java.time.LocalDateTime
-import java.util.UUID
 
-
-case class ETL_Clientes(spark:SparkSession, urlConexion:String) {
+case class ETL_Clients(spark:SparkSession, urlConexion:String) {
   
   def extraccion():Unit={
     val datosConexion = Utilerias().obtenFicheroDePropiedades(urlConexion)
@@ -25,8 +23,12 @@ case class ETL_Clientes(spark:SparkSession, urlConexion:String) {
       .option("password", datosConexion.getProperty("password"))
       .option("driver", datosConexion.getProperty("driver"))
       .load()
-    df_Clientes.show();
-    df_Clientes.write.mode("overwrite").saveAsTable(tabla_Final);
+    val new_clientes = df_Clientes.
+      withColumn("COD_PLASTICO", regexp_replace( df_Clientes("COD_PLASTICO").cast(StringType), "\\..*",""))
+      .withColumn("SMS", df_Clientes("SMS").cast(IntegerType))
+      .withColumn("EMAIL", df_Clientes("EMAIL").cast(IntegerType))
+    new_clientes.show();
+    new_clientes.write.mode("overwrite").saveAsTable(tabla_Final);
     
   }
 }
